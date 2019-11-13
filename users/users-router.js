@@ -3,7 +3,7 @@ const router = require('express').Router();
 const Users = require('./users-model.js');
 const restricted = require('../auth/restricted-middleware.js');
 
-router.get('/', restricted, checkRole("admin"), (req, res) => {
+router.get('/', restricted, checkRole(["student", "admin"]), (req, res) => {
   Users.find()
     .then(users => {
       res.json(users);
@@ -12,12 +12,12 @@ router.get('/', restricted, checkRole("admin"), (req, res) => {
 });
 
 
-function checkRole(role) {
+function checkRole(roles) {
     return function (req, res, next) {
-        if (role === req.decodedJwt.role) {
+        if (role.includes(req.decodedJwt.role)) {
             next();
         } else {
-            res.status(403).json({ message: "Can't touch this!" });
+            res.status(403).json({ message: "You do not have the required credentials to enter here." });
         }
     }
 }
