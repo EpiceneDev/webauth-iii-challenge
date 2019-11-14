@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 
 const Users = require('../users/users-model.js');
+const { validateUser } = require('../users/users-helpers.js');
 
 // for endpoints beginning with /api/auth
 router.post('/register', (req, res) => {
@@ -54,7 +55,6 @@ router.post('/login', (req, res) => {
 function generateToken(username) {
 
   const payload = {
-    subject: user.id,
     username: user.username,
     role: "student" //probably come from db
   };

@@ -14,7 +14,7 @@ router.get('/', restricted, checkRole(["student", "admin"]), (req, res) => {
 
 function checkRole(roles) {
     return function (req, res, next) {
-        if (role.includes(req.decodedJwt.role)) {
+        if (roles.includes(req.decodedJwt.role)) {
             next();
         } else {
             res.status(403).json({ message: "You do not have the required credentials to enter here." });
