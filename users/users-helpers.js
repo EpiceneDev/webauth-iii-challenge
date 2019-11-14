@@ -12,7 +12,10 @@ function validateUser(user) {
     if (!user.password || user.password.length < 2) {
         errors.push("Please include a password with at least 2 characters");
     }
-
+    // console.log(errors)
+    // console.log(user.username)
+    // console.log(user.password)
+    
     return {
         isSuccessful: errors.length > 0 ? false : true,
         errors

@@ -9,7 +9,7 @@ const secrets = require('../config/secrets.js');
 // for endpoints beginning with /api/auth
 router.post('/register', (req, res) => {
   let user = req.body;
-
+  console.log(user)
   const validateResult = validateUser(user);
 
   if (validateResult.isSuccessful === true) {
@@ -37,9 +37,10 @@ router.post('/login', (req, res) => {
   Users.findBy({ username })
     .first()
     .then(user => {
+      // console.log("USER>>>", user)
       if (user && bcrypt.compareSync(password, user.password)) {
-        const token = generateToken(user.name);
-
+        const token = generateToken(user);
+        console.log("TOKEN///", token)
         res.status(200).json({
           message: `Welcome ${user.username}! Have a token...`,
           token
@@ -49,11 +50,11 @@ router.post('/login', (req, res) => {
       }
     })
     .catch(error => {
-      res.status(500).json(error);
+      res.status(500).json("this is an error");
     });
 });
 
-function generateToken(username) {
+function generateToken(user) {
 
   const payload = {
     subject: user.id,
