@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const Users = require('../users/users-model.js');
 const { validateUser } = require('../users/users-helpers.js');
+const secrets = require('../config/secrets.js');
 
 // for endpoints beginning with /api/auth
 router.post('/register', (req, res) => {
@@ -55,17 +56,17 @@ router.post('/login', (req, res) => {
 function generateToken(username) {
 
   const payload = {
+    subject: user.id,
     username: user.username,
     role: "student" //probably come from db
   };
 
-  const secret = process.env.JWT_SECRET || "is it secret, is it safe?";
 
   const options = { 
     expiresIn: "1d"
   };
 
-  return jwt.sign(payload, secret, options);
+  return jwt.sign(payload, secrets.jwtSecret, options);
 }
 
 module.exports = router;

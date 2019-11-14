@@ -12,6 +12,7 @@ function find() {
 }
 
 function findBy(filter) {
+  //include role info here
   return db('users').where(filter);
 }
 
